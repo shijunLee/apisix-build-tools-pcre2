@@ -267,7 +267,7 @@ endif
 .PHONY: build-apisix-runtime-deb
 build-apisix-runtime-deb:
 ifeq ($(app),apisix)
-	mkdir apisix-runtime && cp  -r ./* apisix-runtime
+	mkdir apisix-runtime && rsync -av --exclude=apisix-runtime ./* apisix-runtime
 	$(call build_runtime,apisix-runtime,apisix-runtime,deb,"./apisix-runtime")
 	rm -fr ./apisix-runtime
 else
