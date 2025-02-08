@@ -4,12 +4,12 @@ ARG IMAGE_TAG="8.6"
 ARG PACKAGE_TYPE
 ARG RUNTIME_VERSION
 
-FROM apache/apisix-runtime-${PACKAGE_TYPE}:${RUNTIME_VERSION} AS APISIX-RUNTIME
+FROM apache/apisix-runtime-${PACKAGE_TYPE}:${RUNTIME_VERSION} AS apisix-runtime
 FROM ${IMAGE_BASE}:${IMAGE_TAG}
 
 COPY ./utils/install-common.sh /install-common.sh
 COPY ./utils/determine-dist.sh /determine-dist.sh
-COPY --from=APISIX-RUNTIME /usr/local/openresty /usr/local/openresty
+COPY --from=apisix-runtime /usr/local/openresty /usr/local/openresty
 
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 

@@ -18,7 +18,7 @@ fi
 dep_pcre="pcre"
 if [ "$PACKAGE_TYPE" == "deb" ]
 then
-	dep_pcre="libpcre3"
+	dep_pcre="libpcre2-dev"
 fi
 dep_which="which"
 if [ "$PACKAGE_TYPE" == "deb" ]

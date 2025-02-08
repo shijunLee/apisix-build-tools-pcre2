@@ -35,7 +35,7 @@ install_dependencies_deb() {
 
 install_openresty_deb() {
     DEBIAN_FRONTEND=noninteractive apt-get update
-    DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev lsb-release libpcre3 libpcre3-dev libldap2-dev perl build-essential
+    DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev lsb-release libpcre2-dev libldap2-dev perl build-essential
     DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends wget gnupg ca-certificates
 }
 
@@ -90,6 +90,20 @@ install_apisix() {
     install_rust
 
     # build the lib and specify the storage path of the package installed
+    sed -i 's/\"casbin = 1.41.9-1\",//g'  apisix-master-0.rockspec
+    sed -i 's/\"jsonschema = 0.9.8\",//g'  apisix-master-0.rockspec
+    sed -i 's/\"lualdap = 1.2.6-1\",/\"lualdap = 1.4.0-1\",/g'  apisix-master-0.rockspec
+    git clone --depth=1 -b v1.41.9 https://github.com/shijunLee/lua-casbin.git
+    cd lua-casbin
+    luarocks make ./casbin-1.41.9-1.rockspec   --tree=/tmp/build/output/apisix/usr/local/apisix/deps --local
+    rm -rf lua-casbin
+    cd ..
+    git clone --depth=1 -b v0.9.9 \
+        https://github.com/shijunLee/jsonschema.git
+    cd jsonschema 
+    luarocks make ./rockspec/jsonschema-0.9.9-0.rockspec  --tree=/tmp/build/output/apisix/usr/local/apisix/deps --local
+    cd ..
+    rm -rf jsonschema
     luarocks make ./apisix-master-${iteration}.rockspec --tree=/tmp/build/output/apisix/usr/local/apisix/deps --local
     chown -R "$(whoami)":"$(whoami)" /tmp/build/output
     cd ..

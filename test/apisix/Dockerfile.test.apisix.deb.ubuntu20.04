@@ -16,7 +16,7 @@ COPY ./utils/install-common.sh /install-common.sh
 # install
 RUN set -x \
     && DEBIAN_FRONTEND=noninteractive apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev lsb-release libpcre3 libpcre3-dev libldap2-dev libssl-dev perl build-essential \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev lsb-release libpcre2-dev libldap2-dev libssl-dev perl build-essential \
     && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends wget gnupg ca-certificates \
     && wget -O - https://openresty.org/package/pubkey.gpg | apt-key add - \
     && wget -O - http://repos.apiseven.com/pubkey.gpg | apt-key add - \

@@ -166,8 +166,8 @@ define package
 		-f ./dockerfiles/Dockerfile.package.$(1) .
 	docker run -d --rm --name output --net="host" apache/$(1)-packaged-$(2):$(version)
 	docker cp output:/output ${PWD}
-	docker stop output
-	docker system prune -a -f
+ 
+ 
 endef
 
 ### function for packing
@@ -186,14 +186,15 @@ define package_runtime
 		-f ./dockerfiles/Dockerfile.package.$(1) .
 	docker run -d --rm --name output --net="host" apache/$(1)-packaged-$(2):$(runtime_version)
 	docker cp output:/output ${PWD}
-	docker stop output
-	docker system prune -a -f
+	 
+ 
 endef
 
 ### build apisix:
 .PHONY: build-apisix-rpm
 build-apisix-rpm:
 ifeq ($(local_code_path), 0)
+	rm -fr ./apisix
 	git clone -b $(checkout) $(apisix_repo) ./apisix
 	$(call build,apisix,apisix,rpm,"./apisix")
 	rm -fr ./apisix
@@ -204,6 +205,7 @@ endif
 .PHONY: build-apisix-deb
 build-apisix-deb:
 ifeq ($(local_code_path), 0)
+	rm -fr ./apisix
 	git clone -b $(checkout) $(apisix_repo) ./apisix
 	$(call build,apisix,apisix,deb,"./apisix")
 	rm -fr ./apisix
@@ -265,7 +267,7 @@ endif
 .PHONY: build-apisix-runtime-deb
 build-apisix-runtime-deb:
 ifeq ($(app),apisix)
-	git clone -b apisix-runtime/$(runtime_version) $(apisix_runtime_repo) ./apisix-runtime
+	mkdir apisix-runtime && cp  -r ./* apisix-runtime
 	$(call build_runtime,apisix-runtime,apisix-runtime,deb,"./apisix-runtime")
 	rm -fr ./apisix-runtime
 else

@@ -125,6 +125,8 @@ else
     mv lua-resty-limit-traffic-$limit_ver bundle/lua-resty-limit-traffic-$or_limit_ver
 fi
 
+ls -alt /usr/local/openresty/pcre2
+
 ./configure --prefix="$OR_PREFIX" \
     --with-cc-opt="-DAPISIX_BASE_VER=$version $cc_opt" \
     --with-ld-opt="-Wl,-rpath,$OR_PREFIX/wasmtime-c-api/lib $ld_opt" \

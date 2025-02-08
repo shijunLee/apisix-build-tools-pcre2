@@ -39,7 +39,7 @@ build_apisix_base_deb() {
     fi
 
     DEBIAN_FRONTEND=noninteractive apt-get update
-    DEBIAN_FRONTEND=noninteractive apt-get install -y openresty-openssl111-dev openresty-pcre-dev openresty-zlib-dev
+    DEBIAN_FRONTEND=noninteractive apt-get install -y openresty-openssl111-dev openresty-pcre2-dev openresty-zlib-dev
 
     export_apisix_base_openresty_variables
     # fix OR_PREFIX
@@ -87,7 +87,7 @@ build_apisix_runtime_deb() {
     fi
 
     DEBIAN_FRONTEND=noninteractive apt-get update
-    DEBIAN_FRONTEND=noninteractive apt-get install -y openresty-pcre-dev openresty-zlib-dev
+    DEBIAN_FRONTEND=noninteractive apt-get install -y openresty-pcre2-dev openresty-zlib-dev
 
     export_openresty_variables
     # fix OR_PREFIX
@@ -105,7 +105,7 @@ build_apisix_runtime_apk() {
 export_openresty_variables() {
     export openssl_prefix=/usr/local/openresty/openssl3
     export zlib_prefix=/usr/local/openresty/zlib
-    export pcre_prefix=/usr/local/openresty/pcre
+    export pcre_prefix=/usr/local/openresty/pcre2
     export OR_PREFIX=/usr/local/openresty
 
     export cc_opt="-DNGX_LUA_ABORT_AT_PANIC -I${zlib_prefix}/include -I${pcre_prefix}/include -I${openssl_prefix}/include"
@@ -115,7 +115,7 @@ export_openresty_variables() {
 export_apisix_base_openresty_variables() {
     export openssl_prefix=/usr/local/openresty/openssl111
     export zlib_prefix=/usr/local/openresty/zlib
-    export pcre_prefix=/usr/local/openresty/pcre
+    export pcre_prefix=/usr/local/openresty/pcre2
     export OR_PREFIX=/usr/local/openresty
 
     export cc_opt="-DNGX_LUA_ABORT_AT_PANIC -I${zlib_prefix}/include -I${pcre_prefix}/include -I${openssl_prefix}/include"
